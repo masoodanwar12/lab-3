@@ -1,1 +1,154 @@
+#PROGRAM # 1
+class Node:
+    #state = state      # class variable shared by all instances
 
+    def __init__(self, state, parent, actions, totalCost):
+        
+        self.state = state
+        self.parent = parent
+        self.actions = actions
+
+        self.totalCost = totalCost
+
+node1 = Node(1, 2, 3, 4)
+
+
+graph = {'A': Node('A', None, ['B', 'C', 'E'],None),
+         'B': Node('B', None, ['A', 'D', 'E'],None),
+         'C': Node('C', None, ['A', 'F', 'G'],None),
+         'D': Node('D', None, ['B', 'E'],None),
+         'E': Node('E', None, ['A', 'B', 'D'],None),
+         'F': Node('F', None, ['C'],None),
+         'G': Node('G', None, ['C'],None),}
+
+
+
+def BFS():
+    initialState = 'Arad'
+    goalState = 'Bucharest'
+    graph = {'Oradea': Node('Oradea', None, ['Zerind', 'Sibiu'],[71,151]),
+             'Zerind': Node('Zerind',None,['Arad','Oradea'],[75,71]),
+             'Arad': Node('Arad',None,['Zerind','Timisoara','Sibiu'],[75,118,140]),
+             'Sibiu': Node('Sibiu',None,['Fagaras', 'Rimnicu Vilcea','Oradea','Arad'],[99,80,151,140]),
+             'Timisoara': Node('Timisoara',None,['Lugoj','Arad'],[111,118]),
+             'Lugoj': Node('Lugoj',None,['Mehadia','Timisoara'],[70,111]),
+             'Mehadia': Node('Mehadia',None,['Drobeta','Lugoj'],[75,70]),
+             'Drobeta': Node('Drobeta',None,['Craiova','Mehadia'],[120,75]),
+             'Craiova': Node('Craiova',None,['Pitesti','Rimnicu Vilcea','Drobeta'],[138,146,120]),
+             'Rimnicu Vilcea': Node('Rimnicu Vilcea',None,['Pitesti','Craiova'],[97,146]),
+             'Fagaras': Node('Fagaras',None,['Bucharest','Sibiu'],[211,99]),
+             'Bucharest':Node('Bucharest',None,['Giurgiu','Pitesti','Fagaras','Urziceni'],[90,101,211,85]),
+             'Urziceni': Node('Urziceni',None,['Bucharest','Hirsova','Vaslui'],[85,98,142]),
+             'Vaslui': Node('Vaslui',None,['Iasi','Urziceni'],[92,142]),
+             'Iasi': Node('Iasi',None,['Neamt','Vaslui'],[87,92]),
+             'Hirsova': Node('Hirsova',None,['Urziceni','Eforie'],[98,86]),
+             'Neamt': Node('Neamt',None,['Iasi'],[87])}
+    frontier = [initialState]
+    explored = []
+    while len(frontier) !=0:
+          currentNode = frontier.pop(0)
+          explored.append(currentNode)
+          for child in graph[currentNode].actions:
+              if child not in frontier and child not in explored:
+                  graph[child].parent=currentNode
+                  if graph[child].state==goalState:
+                        return actionSequence(graph, initialState, goalState)
+                  frontier.append(child)
+
+
+
+
+
+
+
+
+
+
+def actionSequence(graph, initialState, goalState):
+                   solution=[goalState]
+                   currentParent = graph[goalState].parent
+                   while currentParent!=None:
+                       solution.append(currentParent)
+                       currentParent = graph[currentParent].parent
+                   solution.reverse()
+                   return solution
+                   
+solution = BFS()
+print(solution) 
+
+
+
+#PROGRAM # 2
+class Node:
+    #state = state      # class variable shared by all instances
+
+    def __init__(self, state, parent, actions, totalCost):
+        
+        self.state = state
+        self.parent = parent
+        self.actions = actions
+
+        self.totalCost = totalCost
+
+node1 = Node(1, 2, 3, 4)
+
+
+graph = {'A': Node('A', None, ['B', 'C', 'E'],None),
+         'B': Node('B', None, ['A', 'D', 'E'],None),
+         'C': Node('C', None, ['A', 'F', 'G'],None),
+         'D': Node('D', None, ['B', 'E'],None),
+         'E': Node('E', None, ['A', 'B', 'D'],None),
+         'F': Node('F', None, ['C'],None),
+         'G': Node('G', None, ['C'],None),}
+def BFS():
+    initialState = 'Start'
+    goalState = 'goal'
+    graph = {'Start': Node('Start',None,['1'],None),
+             '1': Node('1',None,['2'],None),
+             '2': Node('2',None,['3'],None),
+             '3': Node('3',None,['4','5'],None),
+             '4': Node('4',None,['6'],None),
+             '6': Node('6',None,['7'],None),
+             '7': Node('7',None,['8'],None),
+             '8': Node('8',None,['9'],None),
+             '9': Node('9',None,['10'],None),
+             '10': Node('10',None,['11'],None),
+             '11': Node('11',None,['12'],None),
+             '12':Node('12',None,['13'],None),
+             '13': Node('13',None,['14'],None),
+             '14': Node('14',None,['15'],None),
+             '15': Node('15',None,['goal','23'],None),
+             '5': Node('5',None,['16'],None),
+             '16': Node('16',None,['17','18'],None),
+             '17': Node('17',None,['19'],None),
+             '18': Node('18',None,['19'],None),
+             '19': Node('19',None,['20'],None),
+             '20': Node('20',None,['21'],None),
+             '21': Node('21',None,['20','22','23'],None),
+             '22': Node('22',None,['21'],None),
+             '23': Node('23',None,['21','24'],None),
+             '24': Node('24',None,['23','15'],None),
+             'goal':Node('goal',None,['15'],None)}
+    frontier = [initialState]
+    explored = []
+    while len(frontier) !=0:
+          currentNode = frontier.pop(0)
+          explored.append(currentNode)
+          for child in graph[currentNode].actions:
+              if child not in frontier and child not in explored:
+                  graph[child].parent=currentNode
+                  if graph[child].state==goalState:
+                        return actionSequence(graph, initialState, goalState)
+                  frontier.append(child)
+
+def actionSequence(graph, initialState, goalState):
+                   solution=[goalState]
+                   currentParent = graph[goalState].parent
+                   while currentParent!=None:
+                       solution.append(currentParent)
+                       currentParent = graph[currentParent].parent
+                   solution.reverse()
+                   return solution
+                   
+solution = BFS()
+print(solution) 
